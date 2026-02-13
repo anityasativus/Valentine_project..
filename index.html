@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Happy Valentine ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        height: 100vh;
+        overflow: hidden;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        font-family: "Poppins", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        text-align: center;
+      }
+
+      /* Floating hearts */
+      .heart {
+        position: absolute;
+        bottom: -20px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 20px;
+        animation: floatUp 8s linear infinite;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-110vh) scale(1.5);
+          opacity: 0;
+        }
+      }
+
+      /* Main container */
+      .container {
+        z-index: 10;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+      }
+
+      .love-text {
+        font-family: "Great Vibes", cursive;
+        font-size: 3.5rem;
+        margin-top: 10px;
+        min-height: 60px;
+      }
+
+      /* Music button */
+      .music-btn {
+        margin-top: 30px;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 25px;
+        background: #fff;
+        color: #ff5f9e;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .music-btn:hover {
+        transform: scale(1.05);
+        background: #ffe4ec;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+      <!-- Replace src with your own romantic instrumental mp3 -->
+      <source src="music.mp3" type="audio/mpeg" />
+    </audio>
+
+    <div class="container">
+      <h1>Happy Valentine’s Day, My Love ❤️</h1>
+      <div class="love-text" id="typing"></div>
+      <button class="music-btn" onclick="playMusic()">Play Music 🎶</button>
+    </div>
+
+    <script>
+      /* Typing Effect */
+      const text = "💖"; // 🔴 CHANGE HER NAME HERE
+      let index = 0;
+      const speed = 150;
+      const typingDiv = document.getElementById("typing");
+
+      function typeEffect() {
+        if (index < text.length) {
+          typingDiv.innerHTML += text.charAt(index);
+          index++;
+          setTimeout(typeEffect, speed);
+        }
+      }
+      typeEffect();
+
+      /* Floating Hearts Generator */
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = 5 + Math.random() * 5 + "s";
+        heart.style.fontSize = 15 + Math.random() * 25 + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 8000);
+      }
+
+      setInterval(createHeart, 300);
+
+      /* Music play */
+      function playMusic() {
+        document.getElementById("bgMusic").play();
+      }
+    </script>
+  </body>
+</html>
