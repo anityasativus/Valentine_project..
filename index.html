@@ -2,10 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Happy Valentine ❤️</title>
+    <title>Do You Love Me ❤️</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Google Font -->
     <link
       href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
@@ -30,111 +29,146 @@
         text-align: center;
       }
 
-      /* Floating hearts */
-      .heart {
-        position: absolute;
-        bottom: -20px;
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 20px;
-        animation: floatUp 8s linear infinite;
-      }
-
-      @keyframes floatUp {
-        0% {
-          transform: translateY(0) scale(1);
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(-110vh) scale(1.5);
-          opacity: 0;
-        }
-      }
-
-      /* Main container */
       .container {
         z-index: 10;
         padding: 20px;
       }
 
       h1 {
-        font-size: 3rem;
-        margin-bottom: 20px;
+        font-size: 2.8rem;
       }
 
       .love-text {
         font-family: "Great Vibes", cursive;
         font-size: 3.5rem;
-        margin-top: 10px;
-        min-height: 60px;
+        margin: 15px 0;
       }
 
-      /* Music button */
-      .music-btn {
-        margin-top: 30px;
-        padding: 12px 25px;
+      .question {
+        font-size: 1.5rem;
+        margin: 20px 0;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      button {
+        padding: 12px 28px;
         border: none;
         border-radius: 25px;
-        background: #fff;
-        color: #ff5f9e;
         font-size: 16px;
         cursor: pointer;
         transition: 0.3s;
       }
 
-      .music-btn:hover {
-        transform: scale(1.05);
-        background: #ffe4ec;
+      #yesBtn {
+        background: #fff;
+        color: #ff5f9e;
+      }
+
+      #noBtn {
+        background: #ff3b3b;
+        color: #fff;
+        position: relative;
+      }
+
+      button:hover {
+        transform: scale(1.1);
+      }
+
+      .result {
+        margin-top: 25px;
+        font-size: 1.4rem;
+      }
+
+      /* Floating hearts */
+      .heart {
+        position: absolute;
+        bottom: -20px;
+        font-size: 20px;
+        animation: floatUp 7s linear infinite;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-110vh);
+          opacity: 0;
+        }
       }
     </style>
   </head>
 
   <body>
-    <!-- Background Music -->
     <audio id="bgMusic" loop>
-      <!-- Replace src with your own romantic instrumental mp3 -->
       <source src="music.mp3" type="audio/mpeg" />
     </audio>
 
     <div class="container">
       <h1>Happy Valentine’s Day, My Love ❤️</h1>
       <div class="love-text" id="typing"></div>
-      <button class="music-btn" onclick="playMusic()">Play Music 🎶</button>
+
+      <div class="question">Do you love me? 🥺💖</div>
+
+      <div class="buttons">
+        <button id="yesBtn" onclick="yesClicked()">YES 😍</button>
+        <button id="noBtn" onmouseover="moveNo()">NO 😜</button>
+      </div>
+
+      <div class="result" id="result"></div>
+
+      <br />
+      <button onclick="playMusic()">Play Music 🎶</button>
     </div>
 
     <script>
-      /* Typing Effect */
-      const text = "💖"; // 🔴 CHANGE HER NAME HERE
-      let index = 0;
-      const speed = 150;
-      const typingDiv = document.getElementById("typing");
-
+      // Typing Effect
+      const text = "💖"; // change her name
+      let i = 0;
       function typeEffect() {
-        if (index < text.length) {
-          typingDiv.innerHTML += text.charAt(index);
-          index++;
-          setTimeout(typeEffect, speed);
+        if (i < text.length) {
+          document.getElementById("typing").innerHTML += text.charAt(i);
+          i++;
+          setTimeout(typeEffect, 150);
         }
       }
       typeEffect();
 
-      /* Floating Hearts Generator */
-      function createHeart() {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = "❤️";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = 5 + Math.random() * 5 + "s";
-        heart.style.fontSize = 15 + Math.random() * 25 + "px";
-        document.body.appendChild(heart);
-
-        setTimeout(() => {
-          heart.remove();
-        }, 8000);
+      // YES click
+      function yesClicked() {
+        document.getElementById("result").innerHTML =
+          "I knew it 😍❤️<br>You just made me the happiest person alive 💕<br>Now come here, hug me 🤗";
+        document.getElementById("bgMusic").play();
+        for (let i = 0; i < 30; i++) createHeart();
       }
 
-      setInterval(createHeart, 300);
+      // NO button runs away
+      function moveNo() {
+        const noBtn = document.getElementById("noBtn");
+        const x = Math.random() * 200 - 100;
+        const y = Math.random() * 200 - 100;
+        noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      }
 
-      /* Music play */
+      // Floating hearts
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = 15 + Math.random() * 25 + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 7000);
+      }
+      setInterval(createHeart, 400);
+
+      // Music
       function playMusic() {
         document.getElementById("bgMusic").play();
       }
