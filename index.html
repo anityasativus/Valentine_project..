@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Do You Love Me ❤️</title>
+    <title>For My Kutu ❤️</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link
@@ -11,6 +11,13 @@
     />
 
     <style>
+      :root {
+        --primary-pink: #ff4d6d;
+        --dark-pink: #c9184a;
+        --glass: rgba(255, 255, 255, 0.15);
+        --white: #ffffff;
+      }
+
       * {
         margin: 0;
         padding: 0;
@@ -20,158 +27,344 @@
       body {
         height: 100vh;
         overflow: hidden;
-        background: linear-gradient(135deg, #ff758c, #ff7eb3);
         font-family: "Poppins", sans-serif;
         display: flex;
         justify-content: center;
         align-items: center;
-        color: #fff;
-        text-align: center;
+        background: linear-gradient(-45deg, #ff4d6d, #c9184a, #800f2f, #ff758f);
+        background-size: 400% 400%;
+        animation: bgMove 15s ease infinite;
+        cursor: none;
+      }
+
+      @keyframes bgMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      #cursor-dot {
+        width: 12px;
+        height: 12px;
+        background: var(--white);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 1000;
+        box-shadow: 0 0 15px var(--white);
+        transform: translate(-50%, -50%);
       }
 
       .container {
+        background: var(--glass);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 25px;
+        padding: 40px 25px;
+        width: 90%;
+        max-width: 420px;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
         z-index: 10;
-        padding: 20px;
+        position: relative;
+      }
+
+      .page {
+        display: none;
+      }
+      .page.active {
+        display: block;
+        animation: fadeIn 0.8s ease-out forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       h1 {
-        font-size: 2.8rem;
+        font-size: 1.8rem;
+        color: var(--white);
+        margin-bottom: 10px;
       }
 
       .love-text {
         font-family: "Great Vibes", cursive;
         font-size: 3.5rem;
-        margin: 15px 0;
+        color: var(--white);
+        margin: 10px 0;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
       }
 
-      .question {
-        font-size: 1.5rem;
-        margin: 20px 0;
-      }
-
-      .buttons {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-      }
-
-      button {
-        padding: 12px 28px;
-        border: none;
-        border-radius: 25px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.3s;
-      }
-
-      #yesBtn {
-        background: #fff;
-        color: #ff5f9e;
-      }
-
-      #noBtn {
-        background: #ff3b3b;
+      p {
+        font-size: 1rem;
         color: #fff;
+        margin-bottom: 15px;
+        font-weight: 300;
+      }
+
+      .btn-group {
+        margin-top: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
         position: relative;
       }
 
-      button:hover {
-        transform: scale(1.1);
+      button {
+        padding: 12px 35px;
+        border: none;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: none;
+        transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       }
 
-      .result {
-        margin-top: 25px;
-        font-size: 1.4rem;
+      .yes {
+        background: var(--white);
+        color: var(--primary-pink);
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        animation: pulseHeart 1.5s infinite;
       }
 
-      /* Floating hearts */
-      .heart {
+      @keyframes pulseHeart {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.08);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .no {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--white);
+        color: var(--white);
+      }
+
+      .back-btn {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        color: white;
+        padding: 8px 20px;
+        font-size: 0.8rem;
+        margin-top: 15px;
+        opacity: 0.7;
+      }
+
+      .floating {
         position: absolute;
-        bottom: -20px;
-        font-size: 20px;
-        animation: floatUp 7s linear infinite;
+        pointer-events: none;
+        z-index: 1;
+        animation: floatUp var(--d) linear infinite;
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
       }
 
       @keyframes floatUp {
         0% {
-          transform: translateY(0);
+          transform: translateY(110vh) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
           opacity: 1;
         }
         100% {
-          transform: translateY(-110vh);
+          transform: translateY(-10vh) rotate(360deg);
           opacity: 0;
+        }
+      }
+
+      #typewriter p {
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+        border-left: 2px solid var(--white);
+        padding-left: 10px;
+        animation: slideLeft 0.5s ease-out forwards;
+      }
+
+      @keyframes slideLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
         }
       }
     </style>
   </head>
 
   <body>
+    <div id="cursor-dot"></div>
+
     <audio id="bgMusic" loop>
-      <source src="music.mp3" type="audio/mpeg" />
+      <source src="music1.mp3" type="audio/mpeg" />
     </audio>
 
     <div class="container">
-      <h1>Happy Valentine’s Day, My Love ❤️</h1>
-      <div class="love-text" id="typing"></div>
-
-      <div class="question">Do you love me? 🥺💖</div>
-
-      <div class="buttons">
-        <button id="yesBtn" onclick="yesClicked()">YES 😍</button>
-        <button id="noBtn" onmouseover="moveNo()">NO 😜</button>
+      <div class="page active" id="page1">
+        <h1>Hey Gorgeous! ✨</h1>
+        <div class="love-text">Kutu 💖</div>
+        <p>Before we go any further, I need to know one thing...</p>
+        <div class="btn-group">
+          <button class="yes" onclick="goPage(2)">I Love You! 😍</button>
+          <button
+            class="no"
+            id="noBtn"
+            onmouseover="moveNo()"
+            onclick="moveNo()"
+          >
+            Not Today 😜
+          </button>
+        </div>
       </div>
 
-      <div class="result" id="result"></div>
+      <div class="page" id="page2">
+        <h1>My Favorite Things... 💌</h1>
+        <div
+          id="typewriter"
+          style="text-align: left; min-height: 160px; margin-top: 15px"
+        ></div>
+        <div class="btn-group">
+          <button class="yes" onclick="goPage(3)">Keep Going ➜</button>
+          <button class="back-btn" onclick="goPage(1)">⇠ Back</button>
+        </div>
+      </div>
 
-      <br />
-      <button onclick="playMusic()">Play Music 🎶</button>
+      <div class="page" id="page3">
+        <h1>Fun Fact 😂</h1>
+        <p>I searched "The most beautiful girl in the world" on Google...</p>
+        <p style="font-size: 1.2rem; color: #fff">
+          <b>It showed your picture!</b> 📸
+        </p>
+        <p>Also, I still love you more than Biryani. 🍗</p>
+        <div class="btn-group">
+          <button class="yes" onclick="goPage(4)">One Secret... 🤫</button>
+          <button class="back-btn" onclick="goPage(2)">⇠ Back</button>
+        </div>
+      </div>
+
+      <div class="page" id="page4">
+        <h1>The Promise 💍</h1>
+        <p>
+          I promise to be your home, your peace, and your biggest supporter.
+        </p>
+        <p>Forever is a long time, but I want to spend it all with you.</p>
+        <div class="love-text" style="font-size: 2.2rem">Be mine?</div>
+        <div class="btn-group">
+          <button class="yes" onclick="finalLove()">YES, FOREVER! 💘</button>
+          <button class="back-btn" onclick="goPage(3)">⇠ Back</button>
+        </div>
+      </div>
     </div>
 
     <script>
-      // Typing Effect
-      const text = "💖"; // change her name
-      let i = 0;
-      function typeEffect() {
-        if (i < text.length) {
-          document.getElementById("typing").innerHTML += text.charAt(i);
-          i++;
-          setTimeout(typeEffect, 150);
-        }
-      }
-      typeEffect();
+      const dot = document.getElementById("cursor-dot");
+      document.addEventListener("mousemove", (e) => {
+        dot.style.left = e.clientX + "px";
+        dot.style.top = e.clientY + "px";
+        if (Math.random() > 0.85) createTrail(e.clientX, e.clientY);
+      });
 
-      // YES click
-      function yesClicked() {
-        document.getElementById("result").innerHTML =
-          "I knew it 😍❤️<br>You just made me the happiest person alive 💕<br>Now come here, hug me 🤗";
-        document.getElementById("bgMusic").play();
-        for (let i = 0; i < 30; i++) createHeart();
+      function createTrail(x, y) {
+        const t = document.createElement("div");
+        t.innerHTML = "❤️";
+        t.style.position = "fixed";
+        t.style.left = x + "px";
+        t.style.top = y + "px";
+        t.style.pointerEvents = "none";
+        t.style.fontSize = "12px";
+        t.style.zIndex = "999";
+        document.body.appendChild(t);
+        setTimeout(() => {
+          t.style.transform = "translateY(-30px) scale(1.5)";
+          t.style.opacity = "0";
+          t.style.transition = "0.8s ease-out";
+        }, 10);
+        setTimeout(() => t.remove(), 800);
       }
 
-      // NO button runs away
+      function goPage(n) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document.getElementById("page" + n).classList.add("active");
+        if (n === 2) startTypewriter();
+        document
+          .getElementById("bgMusic")
+          .play()
+          .catch(() => {});
+      }
+
+      function startTypewriter() {
+        const text = [
+          "• The way you laugh at my dumb jokes.",
+          "• How you look even when you're sleepy.",
+          "• Your heart, which is purer than anything.",
+          "• Just... everything about you.",
+        ];
+        const container = document.getElementById("typewriter");
+        container.innerHTML = "";
+        text.forEach((line, index) => {
+          setTimeout(() => {
+            if (document.getElementById("page2").classList.contains("active")) {
+              let p = document.createElement("p");
+              p.innerHTML = line;
+              container.appendChild(p);
+            }
+          }, index * 1200);
+        });
+      }
+
       function moveNo() {
-        const noBtn = document.getElementById("noBtn");
-        const x = Math.random() * 200 - 100;
-        const y = Math.random() * 200 - 100;
-        noBtn.style.transform = `translate(${x}px, ${y}px)`;
+        const btn = document.getElementById("noBtn");
+        const padding = 50;
+        const maxX = window.innerWidth - btn.offsetWidth - padding;
+        const maxY = window.innerHeight - btn.offsetHeight - padding;
+        btn.style.position = "fixed";
+        btn.style.left = Math.max(padding, Math.random() * maxX) + "px";
+        btn.style.top = Math.max(padding, Math.random() * maxY) + "px";
       }
 
-      // Floating hearts
-      function createHeart() {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.innerHTML = "❤️";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = 15 + Math.random() * 25 + "px";
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 7000);
+      function finalLove() {
+        alert("You've made me the happiest person alive! ❤️ I love you, Kutu!");
+        setInterval(createFloatingItem, 150);
       }
-      setInterval(createHeart, 400);
 
-      // Music
-      function playMusic() {
-        document.getElementById("bgMusic").play();
+      function createFloatingItem() {
+        const f = document.createElement("div");
+        f.className = "floating";
+        const items = ["❤️", "💖", "🌸", "✨", "💍", "💘"];
+        f.innerHTML = items[Math.floor(Math.random() * items.length)];
+        f.style.left = Math.random() * 100 + "vw";
+        f.style.setProperty("--d", 4 + Math.random() * 4 + "s");
+        f.style.fontSize = 20 + Math.random() * 25 + "px";
+        document.body.appendChild(f);
+        setTimeout(() => f.remove(), 8000);
       }
+      setInterval(createFloatingItem, 800);
     </script>
   </body>
 </html>
